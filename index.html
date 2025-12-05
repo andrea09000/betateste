@@ -79,8 +79,6 @@
         const androidBtn = document.getElementById('androidBtn');
         
         androidBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
             // Create ripple effect
             const ripple = document.createElement('span');
             ripple.style.cssText = `
@@ -101,10 +99,6 @@
             androidBtn.appendChild(ripple);
             
             setTimeout(() => ripple.remove(), 600);
-            
-            // Here you would redirect to your app store link
-            // window.location.href = 'your-android-app-link';
-            alert('🚀 Download Android in arrivo! Torna presto per scaricare l\'app.');
         });
 
         // Parallax effect on orbs
