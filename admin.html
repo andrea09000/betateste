@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionale Beta Tester - Spottly App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff88;
+            --primary-dark: #00cc6a;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a24;
+            --text: #ffffff;
+            --text-muted: #8888aa;
+            --accent: #ff3366;
+            --android: #3ddc84;
+            --apple: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-left img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header h1 span {
+            color: var(--primary);
+        }
+
+        .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--primary);
+        }
+
+        .refresh-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-card.total {
+            border-color: rgba(0, 255, 136, 0.3);
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), transparent);
+        }
+
+        .stat-card.android {
+            border-color: rgba(61, 220, 132, 0.3);
+        }
+
+        .stat-card.apple {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .stat-card.total .stat-number {
+            color: var(--primary);
+        }
+
+        .stat-card.android .stat-number {
+            color: var(--android);
+        }
+
+        .stat-card.apple .stat-number {
+            color: var(--apple);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sections */
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 32px;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .section.android .section-header svg {
+            fill: var(--android);
+        }
+
+        .section.apple .section-header svg {
+            fill: var(--apple);
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .section-count {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Email List */
+        .email-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .email-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: background 0.2s ease;
+        }
+
+        .email-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .email-item:last-child {
+            border-bottom: none;
+        }
+
+        .email-address {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .email-date {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .email-copy {
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .email-copy:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-color: var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 60px 24px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            fill: var(--text-muted);
+            opacity: 0.5;
+            margin-bottom: 16px;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Export buttons */
+        .export-btns {
+            display: flex;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .export-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        /* Scrollbar */
+        .email-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .email-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .email-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .email-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sections {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--primary);
+            color: var(--bg-dark);
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBRfwcnmN8FopdoTSmtea4Gn_IGqGZrJso",
+            authDomain: "betatest-ed972.firebaseapp.com",
+            projectId: "betatest-ed972",
+            storageBucket: "betatest-ed972.firebasestorage.app",
+            messagingSenderId: "678334508424",
+            appId: "1:678334508424:web:b73bfda4a25a4e98acde3d"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.collection = collection;
+        window.getDocs = getDocs;
+        window.query = query;
+        window.orderBy = orderBy;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <img src="logo.png" alt="Logo">
+                <h1>Gestionale <span>Beta Tester</span></h1>
+            </div>
+            <button class="refresh-btn" onclick="loadData()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                </svg>
+                Aggiorna
+            </button>
+        </header>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card total">
+                <div class="stat-number" id="totalCount">-</div>
+                <div class="stat-label">Totale Iscritti</div>
+            </div>
+            <div class="stat-card android">
+                <div class="stat-number" id="androidCount">-</div>
+                <div class="stat-label">Android</div>
+            </div>
+            <div class="stat-card apple">
+                <div class="stat-number" id="appleCount">-</div>
+                <div class="stat-label">iPhone</div>
+            </div>
+        </div>
+
+        <!-- Sections -->
+        <div class="sections">
+            <!-- Android Section -->
+            <div class="section android">
+                <div class="section-header">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17.523 15.341c-.5 0-.91.41-.91.91s.41.91.91.91.91-.41.91-.91-.41-.91-.91-.91zm-11.046 0c-.5 0-.91.41-.91.91s.41.91.91.91.91-.41.91-.91-.41-.91-.91-.91zm11.405-6.02l1.996-3.46c.111-.192.045-.437-.148-.548-.192-.111-.437-.045-.548.148l-2.023 3.51c-1.551-.708-3.29-1.102-5.159-1.102s-3.608.394-5.159 1.102L4.818 5.461c-.111-.193-.356-.26-.548-.148-.193.111-.26.356-.148.548l1.996 3.46C2.688 11.196.5 14.531.5 18.341h23c0-3.81-2.188-7.145-5.618-9.02z"/>
+                    </svg>
+                    <h2>Android</h2>
+                    <span class="section-count" id="androidSectionCount">0</span>
+                </div>
+                <div class="email-list" id="androidList">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+                <div class="export-btns">
+                    <button class="export-btn" onclick="copyEmails('android')">📋 Copia tutte</button>
+                    <button class="export-btn" onclick="exportCSV('android')">📥 Esporta CSV</button>
+                </div>
+            </div>
+
+            <!-- Apple Section -->
+            <div class="section apple">
+                <div class="section-header">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    <h2>iPhone</h2>
+                    <span class="section-count" id="appleSectionCount">0</span>
+                </div>
+                <div class="email-list" id="appleList">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+                <div class="export-btns">
+                    <button class="export-btn" onclick="copyEmails('iphone')">📋 Copia tutte</button>
+                    <button class="export-btn" onclick="exportCSV('iphone')">📥 Esporta CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let allData = [];
+
+        // Load data from Firebase
+        async function loadData() {
+            const androidList = document.getElementById('androidList');
+            const appleList = document.getElementById('appleList');
+            
+            androidList.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            appleList.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+            try {
+                const q = window.query(
+                    window.collection(window.db, "beta_testers"),
+                    window.orderBy("timestamp", "desc")
+                );
+                
+                const snapshot = await window.getDocs(q);
+                allData = [];
+                
+                snapshot.forEach(doc => {
+                    allData.push({ id: doc.id, ...doc.data() });
+                });
+
+                renderData();
+            } catch (error) {
+                console.error('Errore:', error);
+                androidList.innerHTML = '<div class="empty-state">Errore nel caricamento</div>';
+                appleList.innerHTML = '<div class="empty-state">Errore nel caricamento</div>';
+            }
+        }
+
+        // Render data
+        function renderData() {
+            const androidEmails = allData.filter(d => d.device === 'android');
+            const appleEmails = allData.filter(d => d.device === 'iphone');
+
+            // Update counts
+            document.getElementById('totalCount').textContent = allData.length;
+            document.getElementById('androidCount').textContent = androidEmails.length;
+            document.getElementById('appleCount').textContent = appleEmails.length;
+            document.getElementById('androidSectionCount').textContent = androidEmails.length;
+            document.getElementById('appleSectionCount').textContent = appleEmails.length;
+
+            // Render lists
+            document.getElementById('androidList').innerHTML = renderEmailList(androidEmails);
+            document.getElementById('appleList').innerHTML = renderEmailList(appleEmails);
+        }
+
+        // Render email list HTML
+        function renderEmailList(emails) {
+            if (emails.length === 0) {
+                return `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <p>Nessuna email ancora</p>
+                    </div>
+                `;
+            }
+
+            return emails.map(email => `
+                <div class="email-item">
+                    <div>
+                        <div class="email-address">${email.email}</div>
+                        <div class="email-date">${formatDate(email.timestamp)}</div>
+                    </div>
+                    <button class="email-copy" onclick="copyEmail('${email.email}')">Copia</button>
+                </div>
+            `).join('');
+        }
+
+        // Format date
+        function formatDate(timestamp) {
+            if (!timestamp) return '';
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('it-IT', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Copy single email
+        function copyEmail(email) {
+            navigator.clipboard.writeText(email);
+            showToast('Email copiata!');
+        }
+
+        // Copy all emails of a device type
+        function copyEmails(device) {
+            const emails = allData
+                .filter(d => d.device === device)
+                .map(d => d.email)
+                .join('\n');
+            
+            if (emails) {
+                navigator.clipboard.writeText(emails);
+                showToast('Tutte le email copiate!');
+            } else {
+                showToast('Nessuna email da copiare');
+            }
+        }
+
+        // Export to CSV
+        function exportCSV(device) {
+            const emails = allData.filter(d => d.device === device);
+            
+            if (emails.length === 0) {
+                showToast('Nessun dato da esportare');
+                return;
+            }
+
+            const csv = 'Email,Dispositivo,Data\n' + emails.map(e => 
+                `${e.email},${e.device},${e.timestamp}`
+            ).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `beta_testers_${device}_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showToast('CSV scaricato!');
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Load data on page load
+        setTimeout(loadData, 500);
+    </script>
+</body>
+</html>
+
