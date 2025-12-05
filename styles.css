@@ -423,3 +423,121 @@ footer {
     }
 }
 
+/* Beta Form */
+.beta-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.beta-form input[type="email"] {
+    width: 100%;
+    padding: 18px 24px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    color: var(--text);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.beta-form input[type="email"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.beta-form input[type="email"]::placeholder {
+    color: var(--text-muted);
+}
+
+/* Device Selector */
+.device-selector {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.device-selector input[type="radio"] {
+    display: none;
+}
+
+.device-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.device-option svg {
+    width: 22px;
+    height: 22px;
+    fill: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.device-option:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.device-selector input[type="radio"]:checked + .device-option {
+    border-color: var(--primary);
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--primary);
+}
+
+.device-selector input[type="radio"]:checked + .device-option svg {
+    fill: var(--primary);
+}
+
+/* Form Message */
+.form-message {
+    margin-top: 8px;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+.form-message.success {
+    color: var(--primary);
+}
+
+.form-message.error {
+    color: var(--accent);
+}
+
+/* Button disabled state */
+.cta-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cta-button:disabled:hover {
+    transform: none;
+}
+
+/* Responsive form */
+@media (max-width: 480px) {
+    .device-selector {
+        flex-direction: column;
+    }
+    
+    .device-option {
+        justify-content: center;
+    }
+}
+
